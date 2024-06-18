@@ -16,8 +16,8 @@ public class CustomerController {
     @Autowired
     private CustomerRepository customerRepository;
 
-    @GetMapping
-    public List<Person> getCustomer() {
-        return List.of(new Person("Ann", "Ann@gmail.com"));
-    }
+//    @GetMapping
+//    public List<Person> getCustomer() {
+//        return List.of(new Person("Ann", "Ann@gmail.com"));
+//    }
 }
