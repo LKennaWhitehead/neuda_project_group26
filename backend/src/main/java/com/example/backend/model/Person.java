@@ -5,9 +5,9 @@ import jakarta.persistence.Id;
 
 @Entity
 public abstract class Person {
-    @Id
-    private Long id;
+
     private String name;
+    @Id
     private String email;
 
     public Person() {}
@@ -17,9 +17,6 @@ public abstract class Person {
         this.email = email;
     }
 
-    public Long getId() {
-        return id;
-    }
 
     public String getName() {
         return name;
@@ -29,10 +26,11 @@ public abstract class Person {
         return email;
     }
 
+    public abstract void generateId();
+
     @Override
     public String toString() {
         return "Person{" +
-                "id=" + id +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 '}';

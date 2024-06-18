@@ -1,7 +1,28 @@
 package com.example.backend.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class Customer extends Person{
-    public Customer(){
-        super();
+    @Id
+    private String CustomerId;
+    private int idCounter = 0;
+
+    public Customer(String name, String email){
+        super(name, email);
+    }
+
+    public Customer() {
+    }
+
+
+    @Override
+    public void generateId() {
+        CustomerId = "CU" + idCounter++;
+    }
+
+    public String getCustomerId() {
+        return CustomerId;
     }
 }

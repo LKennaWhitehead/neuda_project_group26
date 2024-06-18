@@ -9,6 +9,7 @@ public class Question {
     private Long assigneeId;
     @Id
     private String question;
+    private String answer;
     private Boolean solved;
 
     public Question(Long questionerId, Long assigneeId, String question) {
@@ -26,6 +27,10 @@ public class Question {
         solved = true;
     }
 
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
     public Long getQuestionerId() {
         return questionerId;
     }
@@ -40,5 +45,9 @@ public class Question {
 
     public Boolean getSolved() {
         return solved;
+    }
+
+    public String getAnswer() {
+        return answer;
     }
 }
