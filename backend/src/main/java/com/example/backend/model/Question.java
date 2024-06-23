@@ -5,14 +5,14 @@ import jakarta.persistence.Id;
 
 @Entity
 public class Question {
-    private Long questionerId;
-    private Long assigneeId;
+    private String questionerId;
+    private String assigneeId;
     @Id
     private String question;
     private String answer;
     private Boolean solved;
 
-    public Question(Long questionerId, Long assigneeId, String question) {
+    public Question(String questionerId, String assigneeId, String question) {
         this.questionerId = questionerId;
         this.assigneeId = assigneeId;
         this.question = question;
@@ -31,11 +31,11 @@ public class Question {
         this.answer = answer;
     }
 
-    public Long getQuestionerId() {
+    public String getQuestionerId() {
         return questionerId;
     }
 
-    public Long getAssigneeId() {
+    public String getAssigneeId() {
         return assigneeId;
     }
 

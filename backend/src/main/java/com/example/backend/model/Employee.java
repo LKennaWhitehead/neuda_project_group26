@@ -7,25 +7,23 @@ import java.util.List;
 
 @Entity
 public class Employee extends Person {
+
+    private static int idCounter = 0;
+
     @Id
     private String employeeId;
-    private static int idCounter = 1;
-
 
     @ElementCollection
     @CollectionTable(name = "employeeQuestions", joinColumns = @JoinColumn(name = "employeeId"))
     @Column(name = "question")
-    private List<String> questions;
+    private List<String> questions = new ArrayList<>();
 
     public Employee(String name, String email) {
         super(name, email);
-        this.questions = new ArrayList<>();
         generateId();
     }
 
-    public Employee() {
-
-    }
+    public Employee() {}
 
     @Override
     public void generateId() {
@@ -46,5 +44,15 @@ public class Employee extends Person {
 
     public String getEmployeeId() {
         return employeeId;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "employeeId='" + employeeId + '\'' +
+                ", name='" + getName() + '\'' +
+                ", email='" + getEmail() + '\'' +
+                ", questions=" + questions +
+                '}';
     }
 }
