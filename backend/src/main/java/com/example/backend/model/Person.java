@@ -1,13 +1,11 @@
 package com.example.backend.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
-@Entity
+@MappedSuperclass
 public abstract class Person {
 
     private String name;
-    @Id
     private String email;
 
     public Person() {}
@@ -16,7 +14,6 @@ public abstract class Person {
         this.name = name;
         this.email = email;
     }
-
 
     public String getName() {
         return name;
@@ -31,8 +28,48 @@ public abstract class Person {
     @Override
     public String toString() {
         return "Person{" +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 '}';
     }
 }
+
+//package com.example.backend.model;
+//
+//import jakarta.persistence.GeneratedValue;
+//import jakarta.persistence.GenerationType;
+//import jakarta.persistence.Id;
+//import jakarta.persistence.MappedSuperclass;
+//
+//@MappedSuperclass
+//public abstract class Person {
+//
+//
+//    private String name;
+//    private String email;
+//
+//    // Constructors, getters, and setters
+//
+//    public Person() {}
+//
+//    public Person(String name, String email) {
+//        this.name = name;
+//        this.email = email;
+//    }
+//
+//    public String getName() {
+//        return name;
+//    }
+//
+//    public void setName(String name) {
+//        this.name = name;
+//    }
+//
+//    public String getEmail() {
+//        return email;
+//    }
+//
+//    public void setEmail(String email) {
+//        this.email = email;
+//    }
+//}

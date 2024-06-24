@@ -11,13 +11,13 @@ public class Customer extends Person{
 
     public Customer(String name, String email){
         super(name, email);
+        generateId();
     }
 
     public Customer() {
     }
 
 
-    @Override
     public void generateId() {
         CustomerId = "CU" + idCounter++;
     }

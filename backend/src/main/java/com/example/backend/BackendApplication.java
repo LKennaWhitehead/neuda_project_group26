@@ -1,6 +1,6 @@
 package com.example.backend;
 
-import com.example.backend.model.Person;
+//import com.example.backend.model.Person;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
