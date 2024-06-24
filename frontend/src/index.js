@@ -5,6 +5,8 @@ import reportWebVitals from './reportWebVitals';
 import AdminPage from './AdminPage';
 import LoginPage from './LoginPage';
 import { BrowserRouter as Router, Route, BrowserRouter, Routes } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function App() {
   return (
