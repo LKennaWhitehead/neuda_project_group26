@@ -5,107 +5,140 @@ import axios from 'axios';
 function AdminPage() {
     const navigate = useNavigate();
     const [submissions, setSubmissions] = useState([]);
+    const [dropdown, setDropdown] = useState('All');
+
+    const dummySubmissions = [
+        {
+            status: 'New',
+            name: 'John Doe',
+            email: 'john.doe@example.com',
+            description: 'Issue with login',
+            createdAt: '2023-04-01',
+            updatedAt: '2023-04-01',
+        },
+        {
+            status: 'In Progress',
+            name: 'Jane Smith',
+            email: 'jane.smith@example.com',
+            description: 'Page not loading',
+            createdAt: '2023-04-02',
+            updatedAt: '2023-04-03',
+        },
+        {
+            status: 'Resolved',
+            name: 'Alice Johnson',
+            email: 'alice.johnson@example.com',
+            description: 'Typo in documentation',
+            createdAt: '2023-04-04',
+            updatedAt: '2023-04-05',
+        },
+    ];
+
+    const [filteredSubmissions, setFilteredSubmissions] = useState(dummySubmissions);
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get('http://localhost:3001/submit');
-                setSubmissions(response.data);
-            } catch (error) {
-                console.error('Error fetching submissions:', error);
-            }
-        };
-        fetchData();
+        // TEMPERARELY COMMENTED OUT UNTIL BACKEND IS READY
+
+
+
+        // const fetchData = async () => {
+        //     try {
+        //         const response = await axios.get('http://localhost:3001/submit');
+        //         setSubmissions(response.data);
+        //         // Initially display all submissions
+        //         setFilteredSubmissions(response.data);
+        //     } catch (error) {
+        //         console.error('Error fetching submissions:', error);
+        //     }
+        // };
+        // fetchData();
     }, []);
 
+    useEffect(() => {
+        if (dropdown === 'All') {
+            setFilteredSubmissions(dummySubmissions);
+        } else {
+            const filtered = dummySubmissions.filter(submission => submission.status === dropdown);
+            setFilteredSubmissions(filtered);
+        }
+    }, [dropdown, submissions]);
+
+    const handleDropdown = (choice) => {
+        setDropdown(choice);
+    };
+
+    const getStatusColor = (status) => {
+        switch (status) {
+            case 'New':
+                return 'hsl(0, 100%, 75%)';
+            case 'In Progress':
+                return 'hsl(60, 100%, 75%)';
+            case 'Resolved':
+                return 'hsl(120, 100%, 75%)';
+            default:
+                return 'none';
+        }
+    };
+
     return (
-        <div class="parent">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12 d-flex justify-content-end mt-3">
-                        <button onClick={() => navigate('/')} type="button" class="btn btn-primary">Return to Ticket Entry</button>
+        <div className="parent">
+            <div className="container">
+                <div className="row">
+                    <div className="col-12 d-flex justify-content-end mt-3">
+                        <button onClick={() => navigate('/')} type="button" className="btn btn-primary">Return to Ticket Entry</button>
                     </div>
                 </div>
             </div>
-            <div class="container pt-5">
-                <div class="row justify-content-md-center">
-                    <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
-                        <h2 class="mb-4 display-5 text-center">Admin Dashboard</h2>
-                        <hr class="w-50 mx-auto mb-5 mb-xl-9 border-dark-subtle" />
+            <div className="container pt-5">
+                <div className="row justify-content-md-center">
+                    <div className="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+                        <h2 className="mb-4 display-5 text-center">Admin Dashboard</h2>
+                        <hr className="w-50 mx-auto mb-5 mb-xl-9 border-dark-subtle" />
                     </div>
                 </div>
             </div>
-            <div class="mx-5">
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Dropdown button
+            <div className="mx-5 pb-3">
+                <div className="dropdown">
+                    <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        {dropdown}
                     </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    <ul className="dropdown-menu">
+                        <li><a className="dropdown-item" href="#" onClick={() => handleDropdown('All')}>All</a></li>
+                        <li><a className="dropdown-item" href="#" onClick={() => handleDropdown('New')}>New</a></li>
+                        <li><a className="dropdown-item" href="#" onClick={() => handleDropdown('In Progress')}>In Progress</a></li>
+                        <li><a className="dropdown-item" href="#" onClick={() => handleDropdown('Resolved')}>Resolved</a></li>
                     </ul>
                 </div>
             </div>
-            <div class="mx-5 justify-content-center">
-                <table class="table">
+            <div className="mx-5 justify-content-center">
+                <table className="table rounded-3 border">
                     <thead>
                         <tr>
                             <th scope="col">Status</th>
                             <th scope="col">Name</th>
                             <th scope="col">Email</th>
                             <th scope="col">Description</th>
+                            <th scope="col">Created At  <i className="bi bi-arrow-down-up"></i></th>
+                            <th scope="col">Updated At</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td colspan="2">Larry the Bird</td>
-                            <td>@twitter</td>
-                        </tr>
+                        {filteredSubmissions.map((submission, index) => (
+                            <tr key={index}>
+                                <td style={{ backgroundColor: getStatusColor(submission.status) }}>{submission.status}</td>
+                                <td>{submission.name}</td>
+                                <td>{submission.email}</td>
+                                <td>{submission.description}</td>
+                                <td>{submission.createdAt}</td>
+                                <td>{submission.updatedAt}</td>
+                                <td><i class="bi bi-three-dots"></i></td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>
-
         </div>
-
-
-
-        // <div>
-        //     <h1>Admin Page</h1>
-        //     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '50px' }}>
-        //         <button style={{
-        //             alignSelf: 'flex-end',
-        //             padding: '10px 20px',
-        //             fontSize: '16px',
-        //             backgroundColor: '#007BFF',
-        //             color: 'white',
-        //             border: 'none',
-        //             cursor: 'pointer',
-        //             marginBottom: '20px'
-        //         }} onClick={() => navigate('/')}>Go Back to Ticket Entry</button>
-        //         <h2>Submissions</h2>
-        //         <ul>
-        //             {submissions.map((submission, index) => (
-        //                 <li key={index}>
-        //                     <strong>Name:</strong> {submission.name}, <strong>Email:</strong> {submission.email}, <strong>Description:</strong> {submission.description}
-        //                 </li>
-        //             ))}
-        //         </ul>
-        //     </div>
-        // </div>
     );
 }
 
