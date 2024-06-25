@@ -43,7 +43,7 @@ public class DBInitializer {
     CommandLineRunner initQu(QuestionRepository questionRepository) {
         return args -> {
             var questions = List.of(
-                    new Question("CU1","EM1","How to register")
+                    new Question("CU1","How to register")
             );
             questionRepository.saveAll(questions);
         };

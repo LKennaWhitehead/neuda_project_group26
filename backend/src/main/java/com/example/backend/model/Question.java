@@ -6,15 +6,13 @@ import jakarta.persistence.Id;
 @Entity
 public class Question {
     private String questionerId;
-    private String assigneeId;
     @Id
     private String question;
     private String answer;
     private Boolean solved;
 
-    public Question(String questionerId, String assigneeId, String question) {
+    public Question(String questionerId, String question) {
         this.questionerId = questionerId;
-        this.assigneeId = assigneeId;
         this.question = question;
         solved = false;
     }
@@ -23,11 +21,8 @@ public class Question {
 
     }
 
-    public void solved() {
-        solved = true;
-    }
-
     public void setAnswer(String answer) {
+        solved = true;
         this.answer = answer;
     }
 
@@ -35,19 +30,15 @@ public class Question {
         return questionerId;
     }
 
-    public String getAssigneeId() {
-        return assigneeId;
-    }
-
     public String getQuestion() {
         return question;
     }
 
-    public Boolean getSolved() {
-        return solved;
-    }
-
     public String getAnswer() {
         return answer;
+    }
+
+    public String getStatus() {
+        return solved? "Solved" : "In Progress";
     }
 }
