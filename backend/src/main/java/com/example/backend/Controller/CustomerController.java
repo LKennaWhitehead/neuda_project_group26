@@ -15,7 +15,6 @@ public class CustomerController {
 
     @Autowired
     private CustomerRepository customerRepository;
-
     @Autowired
     private QuestionRepository questionRepository;
 
@@ -25,20 +24,33 @@ public class CustomerController {
     }
 
     @PostMapping("/{customerId}/raise")
-    public void raiseQuestion(@PathVariable String customerId, @RequestParam String questionText, @RequestParam String employeeId) {
+    public void raiseQuestion(@PathVariable String customerId, @RequestParam String questionText) {
         Question question = new Question(customerId, questionText);
         questionRepository.save(question);
     }
 
+    /* 
     @PostMapping("/{customerId}/resolve")
     public void resolveQuestion(@PathVariable String customerId, @RequestParam String questionText) {
         List<Question> questions = questionRepository.findAll();
         for (Question question : questions) {
             if (question.getQuestionerId().equals(customerId) && question.getQuestion().equals(questionText) && question.getAnswer() != null) {
-                question.solved();
+                //question.solved(); 
                 questionRepository.save(question);
                 break;
             }
         }
+    }*/
+
+    @GetMapping("/{customerId}/status")
+    //customer Id = questionerId
+    public String getStatus(@PathVariable String customerId, @ RequestParam String questionText) {
+        List<Question> questions = questionRepository.findAll();
+        for (Question question : questions) {
+            if (question.getQuestionerId().equals(customerId) && question.getQuestion().equals(questionText)) {
+                return question.getStatus();
+            }
+        }
+        return "Question does not exist";
     }
 }

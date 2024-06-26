@@ -15,7 +15,6 @@ public class EmployeeController {
 
     @Autowired
     private EmployeeRepository employeeRepository;
-
     @Autowired
     private QuestionRepository questionRepository;
 
@@ -24,11 +23,11 @@ public class EmployeeController {
         return employeeRepository.findAll();
     }
 
-    @PostMapping("/{employeeId}/answer")
-    public void answerQuestion(@PathVariable String employeeId, @RequestParam String questionText, @RequestParam String answer) {
+    @PostMapping("/{customerId}/answer")
+    public void answerQuestion(@PathVariable String customerId, @RequestParam String questionText, @RequestParam String answer) {
         List<Question> questions = questionRepository.findAll();
         for (Question question : questions) {
-            if (question.getAssigneeId().equals(employeeId) && question.getQuestion().equals(questionText)) {
+            if (question.getQuestionerId().equals(customerId) && question.getQuestion().equals(questionText)) {
                 question.setAnswer(answer);
                 questionRepository.save(question);
                 break;
