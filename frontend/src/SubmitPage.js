@@ -49,7 +49,7 @@ function SubmitPage() {
     };
 
     return (
-        <div>
+        <div class="bg-light">
             <div class="container">
                 <div class="row">
                     <div class="col-12 d-flex justify-content-end mt-3">

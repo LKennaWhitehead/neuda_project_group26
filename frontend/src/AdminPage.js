@@ -6,62 +6,64 @@ function AdminPage() {
     const navigate = useNavigate();
     const [submissions, setSubmissions] = useState([]);
     const [dropdown, setDropdown] = useState('All');
+    const [searchByName, setSearchByName] = useState('');
+    const [searchByEmail, setSearchByEmail] = useState('');
 
-    const dummySubmissions = [
-        {
-            status: 'New',
-            name: 'John Doe',
-            email: 'john.doe@example.com',
-            description: 'Issue with login',
-            createdAt: '2023-04-01',
-            updatedAt: '2023-04-01',
-        },
-        {
-            status: 'In Progress',
-            name: 'Jane Smith',
-            email: 'jane.smith@example.com',
-            description: 'Page not loading',
-            createdAt: '2023-04-02',
-            updatedAt: '2023-04-03',
-        },
-        {
-            status: 'Resolved',
-            name: 'Alice Johnson',
-            email: 'alice.johnson@example.com',
-            description: 'Typo in documentation',
-            createdAt: '2023-04-04',
-            updatedAt: '2023-04-05',
-        },
-    ];
+    // const dummySubmissions = [
+    //     {
+    //         status: 'New',
+    //         name: 'John Doe',
+    //         email: 'john.doe@example.com',
+    //         description: 'Issue with login',
+    //         createdAt: '2023-04-01',
+    //         updatedAt: '2023-04-01',
+    //     },
+    //     {
+    //         status: 'In Progress',
+    //         name: 'Jane Smith',
+    //         email: 'jane.smith@example.com',
+    //         description: 'Page not loading',
+    //         createdAt: '2023-04-02',
+    //         updatedAt: '2023-04-03',
+    //     },
+    //     {
+    //         status: 'Resolved',
+    //         name: 'Alice Johnson',
+    //         email: 'alice.johnson@example.com',
+    //         description: 'Typo in documentation',
+    //         createdAt: '2023-04-04',
+    //         updatedAt: '2023-04-05',
+    //     },
+    // ];
 
-    const [filteredSubmissions, setFilteredSubmissions] = useState(dummySubmissions);
+    const [filteredSubmissions, setFilteredSubmissions] = useState([]);
 
     useEffect(() => {
-        // TEMPERARELY COMMENTED OUT UNTIL BACKEND IS READY
-
-
-
-        // const fetchData = async () => {
-        //     try {
-        //         const response = await axios.get('http://localhost:3001/submit');
-        //         setSubmissions(response.data);
-        //         // Initially display all submissions
-        //         setFilteredSubmissions(response.data);
-        //     } catch (error) {
-        //         console.error('Error fetching submissions:', error);
-        //     }
-        // };
-        // fetchData();
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/customer');
+                setSubmissions(response.data);
+                setFilteredSubmissions(response.data);
+            } catch (error) {
+                console.error('Error fetching submissions:', error);
+            }
+        };
+        fetchData();
     }, []);
 
     useEffect(() => {
-        if (dropdown === 'All') {
-            setFilteredSubmissions(dummySubmissions);
-        } else {
-            const filtered = dummySubmissions.filter(submission => submission.status === dropdown);
-            setFilteredSubmissions(filtered);
+        let filtered = submissions;
+        if (dropdown !== 'All') {
+            filtered = filtered.filter(submission => submission.status === dropdown);
         }
-    }, [dropdown, submissions]);
+        if (searchByName) {
+            filtered = filtered.filter(submission => submission.name.toLowerCase().includes(searchByName.toLowerCase()));
+        }
+        if (searchByEmail) {
+            filtered = filtered.filter(submission => submission.email.toLowerCase().includes(searchByEmail.toLowerCase()));
+        }
+        setFilteredSubmissions(filtered);
+    }, [dropdown, searchByName, searchByEmail, submissions]);
 
     const handleDropdown = (choice) => {
         setDropdown(choice);
@@ -81,7 +83,7 @@ function AdminPage() {
     };
 
     return (
-        <div className="parent">
+        <div className="bg-light min-vh-100 d-flex flex-column">
             <div className="container">
                 <div className="row">
                     <div className="col-12 d-flex justify-content-end mt-3">
@@ -97,21 +99,45 @@ function AdminPage() {
                     </div>
                 </div>
             </div>
-            <div className="mx-5 pb-3">
-                <div className="dropdown">
-                    <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        {dropdown}
-                    </button>
-                    <ul className="dropdown-menu">
-                        <li><a className="dropdown-item" href="#" onClick={() => handleDropdown('All')}>All</a></li>
-                        <li><a className="dropdown-item" href="#" onClick={() => handleDropdown('New')}>New</a></li>
-                        <li><a className="dropdown-item" href="#" onClick={() => handleDropdown('In Progress')}>In Progress</a></li>
-                        <li><a className="dropdown-item" href="#" onClick={() => handleDropdown('Resolved')}>Resolved</a></li>
-                    </ul>
+            <div className="container-fluid">
+                <div className="row align-items-center mx-5 pb-3 ">
+                    <div className="col-md-3">
+                        <div className="dropdown">
+                            <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {dropdown}
+                            </button>
+                            <ul className="dropdown-menu">
+                                <li><a className="dropdown-item" href="#" onClick={() => handleDropdown('All')}>All</a></li>
+                                <li><a className="dropdown-item" href="#" onClick={() => handleDropdown('New')}>New</a></li>
+                                <li><a className="dropdown-item" href="#" onClick={() => handleDropdown('In Progress')}>In Progress</a></li>
+                                <li><a className="dropdown-item" href="#" onClick={() => handleDropdown('Resolved')}>Resolved</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div className="col-md-6 d-flex justify-content-center">
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Search by name"
+                            style={{ maxWidth: '350px', width: '100%' }}
+                            value={searchByName}
+                            onChange={(e) => setSearchByName(e.target.value)}
+                        />
+                    </div>
+                    <div className="col-md-3 d-flex justify-content-end">
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Search by email"
+                            style={{ maxWidth: '500px', width: '100%' }}
+                            value={searchByEmail}
+                            onChange={(e) => setSearchByEmail(e.target.value)}
+                        />
+                    </div>
                 </div>
             </div>
-            <div className="mx-5 justify-content-center">
-                <table className="table rounded-3 border">
+            <div className="mx-5 justify-content-center bg-white border rounded shadow-sm overflow-hidden">
+                <table className="table border">
                     <thead>
                         <tr>
                             <th scope="col">Status</th>
@@ -137,7 +163,10 @@ function AdminPage() {
                         ))}
                     </tbody>
                 </table>
+
             </div>
+
+
         </div>
     );
 }
