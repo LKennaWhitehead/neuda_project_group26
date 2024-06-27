@@ -90,7 +90,7 @@ function SubmitPage() {
                                 <div className="col-12 col-lg-9">
                                     <div className="bg-white text-navy border rounded shadow-sm overflow-hidden">
 
-                                        <form onSubmit={handleSubmit} action="#!">
+                                        <form onSubmit={handleSubmit} action="">
                                             <div className="row gy-4 gy-xl-5 p-4 p-xl-5">
                                                 <div className="col-12">
                                                     <label htmlFor="name" className="form-label"> Name <span className="text-danger">*</span></label>
