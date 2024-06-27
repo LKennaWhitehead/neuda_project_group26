@@ -23,6 +23,11 @@ public class EmployeeController {
         return employeeRepository.findAll();
     }
 
+    @GetMapping("/questions")
+    public List<Question> getAllQuestions() {
+        return questionRepository.findAll();
+    }
+
     @PostMapping("/{customerId}/answer")
     public void answerQuestion(@PathVariable String customerId, @RequestParam String questionText, @RequestParam String answer) {
         List<Question> questions = questionRepository.findAll();
