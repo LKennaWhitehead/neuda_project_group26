@@ -23,6 +23,17 @@ public class CustomerController {
         return customerRepository.findAll();
     }
 
+    @GetMapping("/{customerId}")
+    public Customer getCustomerById(@PathVariable String customerId) {
+        List<Customer> customers = getAllCustomers();
+        for (Customer customer : customers) {
+            if (customer.getCustomerId().equals(customerId)) {
+                return customer;
+            }
+        }
+        return null;
+    }
+
     @PostMapping("/{customerId}/raise")
     public void raiseQuestion(@PathVariable String customerId, @RequestParam String questionText, 
                                 @RequestParam String customerName, @RequestParam String email) {
