@@ -24,7 +24,10 @@ public class CustomerController {
     }
 
     @PostMapping("/{customerId}/raise")
-    public void raiseQuestion(@PathVariable String customerId, @RequestParam String questionText) {
+    public void raiseQuestion(@PathVariable String customerId, @RequestParam String questionText, 
+                                @RequestParam String customerName, @RequestParam String email) {
+        Customer customer = new Customer(customerName, email);
+        customerRepository.save(customer);
         Question question = new Question(customerId, questionText);
         questionRepository.save(question);
     }
