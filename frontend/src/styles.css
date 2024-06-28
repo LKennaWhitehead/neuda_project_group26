@@ -1,0 +1,45 @@
+
+.bg-powder-blue {
+    background-color: #47bded;
+}
+
+.text-navy {
+    color: #1313c3;
+}
+
+.btn-navy {
+    background-color: #000080;
+    color: #ffffff;
+}
+
+.bg-light-blue {
+    background-color: #87CEEB;
+}
+
+.btn-primary {
+    background-color: #DC143C;
+    border-color: #DC143C;
+    color: #ffffff;
+}
+
+
+
+.form-control {
+    background-color: #ffffff;
+    color: #000080;
+    border: 2px solid #000080;
+    padding: 10px;
+
+}
+
+.input-group-text {
+    background-color: #aa2f2f; /* White background */
+    border: 2px solid #000080; /* Navy Blue border */
+    color: #000080; /* Navy Blue text */
+    border-radius: 5px; /* Rounded corners */
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+}
