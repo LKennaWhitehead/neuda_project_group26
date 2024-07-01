@@ -1,0 +1,33 @@
+.background-image {
+    position: relative;
+    /* Ensure the parent is positioned */
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+}
+
+.background-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1)), url('../images/background-image.jpg');
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+}
+
+.custom-rounded {
+    border-radius: 0.75rem;
+    overflow: hidden;
+}
+
+.custom-border {
+    border-width: 2px !important;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    border-color: white;
+}

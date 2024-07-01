@@ -1,0 +1,44 @@
+.bg-custom {
+    background-color: #e5f3fd;
+}
+
+.bg-blue-color {
+    background-color: #004785;
+}
+
+/* .btn-primary,
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:visited {
+    background-color: #004785 !important;
+} */
+
+.form-control:focus {
+    border-color: #004785;
+    box-shadow: 0 0 0 0.25rem rgba(37, 150, 190, 0.50);
+}
+
+.white-border {
+    border-color: white !important;
+}
+
+.background-image {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+}
+
+.background-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1)), url('../images/background-image.jpg');
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+}

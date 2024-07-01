@@ -2,10 +2,10 @@
 /Users/lkennawhitehead/neueda-project/neuda_project_group26/backend/src/main/java/com/example/backend/Controller/CustomerController.java
 /Users/lkennawhitehead/neueda-project/neuda_project_group26/backend/src/main/java/com/example/backend/Controller/EmployeeController.java
 /Users/lkennawhitehead/neueda-project/neuda_project_group26/backend/src/main/java/com/example/backend/config/DBInitializer.java
-/Users/lkennawhitehead/neueda-project/neuda_project_group26/backend/src/main/java/com/example/backend/model/Customer.java
-/Users/lkennawhitehead/neueda-project/neuda_project_group26/backend/src/main/java/com/example/backend/model/Employee.java
-/Users/lkennawhitehead/neueda-project/neuda_project_group26/backend/src/main/java/com/example/backend/model/Person.java
-/Users/lkennawhitehead/neueda-project/neuda_project_group26/backend/src/main/java/com/example/backend/model/Question.java
 /Users/lkennawhitehead/neueda-project/neuda_project_group26/backend/src/main/java/com/example/backend/repository/CustomerRepository.java
 /Users/lkennawhitehead/neueda-project/neuda_project_group26/backend/src/main/java/com/example/backend/repository/EmployeeRepository.java
 /Users/lkennawhitehead/neueda-project/neuda_project_group26/backend/src/main/java/com/example/backend/repository/QuestionRepository.java
+/Users/lkennawhitehead/neueda-project/neuda_project_group26/backend/src/main/java/com/example/backend/repository/model/Customer.java
+/Users/lkennawhitehead/neueda-project/neuda_project_group26/backend/src/main/java/com/example/backend/repository/model/Employee.java
+/Users/lkennawhitehead/neueda-project/neuda_project_group26/backend/src/main/java/com/example/backend/repository/model/Person.java
+/Users/lkennawhitehead/neueda-project/neuda_project_group26/backend/src/main/java/com/example/backend/repository/model/Question.java
