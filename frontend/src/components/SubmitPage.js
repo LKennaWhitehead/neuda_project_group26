@@ -149,16 +149,15 @@ function SubmitPage() {
                         </div>
                         <div className="mb-3">
                             <label htmlFor="name" className="form-label text-bg-blue-color">Name</label>
-                            <input type="text" className="form-control bg-light" id="name" />
+                            <input type="text" className="form-control bg-light" id="name" name="name" value={formData.name} onChange={handleChange} />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="email" className="form-label text-bg-blue-color">Email</label>
-                            <input type="email" className="form-control bg-light" id="email" />
+                            <input type="email" className="form-control bg-light" id="email" name="email" value={formData.email} onChange={handleChange} />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="Question" className="form-label">Question</label>
-                            <textarea className="form-control bg-light" id="question" rows="4"></textarea>
-                        </div>
+                            <textarea className="form-control bg-light" id="question" name="question" rows="4" value={formData.question} onChange={handleChange}></textarea>                        </div>
                         <div className="submit-button-container d-flex justify-content-left pt-4">
                             <button type="submit" className="btn btn-primary text-white shadow-lg rounded-5">Submit Ticket</button>
                         </div>

@@ -85,19 +85,6 @@ function AdminPage() {
         setDropdown(choice);
     };
 
-    const getStatusColor = (status) => {
-        switch (status) {
-            case 'New':
-                return 'hsl(0, 100%, 75%)';
-            case 'In Progress':
-                return 'hsl(60, 100%, 75%)';
-            case 'Resolved':
-                return 'hsl(120, 100%, 75%)';
-            default:
-                return 'none';
-        }
-    };
-
     return (
         <div className="parent background-image d-flex flex-column flex-md-row justify-content-center align-items-center vh-100">
             <div className="ticket-button-container position-absolute top-0 end-0 pt-4 pe-4">
@@ -108,7 +95,7 @@ function AdminPage() {
                     <h2 className="text-white">Submitted Tickets</h2>
                 </div>
                 <div className="nav-container pb-3 pt-3">
-                    <nav className="navbar bg-body-tertiary rounded-3 p-1">
+                    <nav className="navbar bg-white rounded-3 p-1">
                         <form className="container-fluid">
                             <div className="row form-row align-items-center">
                                 <div className="col d-flex justify-content-start">
