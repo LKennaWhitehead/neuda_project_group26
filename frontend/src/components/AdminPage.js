@@ -48,7 +48,7 @@ function AdminPage() {
                 const questionsData = questionsResponse.data;
 
                 const combinedData = submissionsResponse.data.map(submission => {
-                    const questionDetails = questionsData.find(q => q.submissionId === submission.id);
+                    const questionDetails = questionsData.find(q => q.questionerId === submission.customerId);
                     return {
                         ...submission,
                         question: questionDetails?.question,

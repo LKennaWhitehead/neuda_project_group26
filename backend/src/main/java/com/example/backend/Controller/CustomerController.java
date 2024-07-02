@@ -45,7 +45,8 @@ public class CustomerController {
                                 @RequestParam String customerName, @RequestParam String email) {
         Customer customer = new Customer(customerName, email);
         customerRepository.save(customer);
-        Question question = new Question(customerId, questionText);
+        String id = customer.getCustomerId();
+        Question question = new Question(id, questionText);
         questionRepository.save(question);
     }
 
