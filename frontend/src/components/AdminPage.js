@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './AdminPage.css';
+import ResponseModal from './ResponseModal';
 
 function AdminPage() {
     const navigate = useNavigate();
@@ -10,29 +11,54 @@ function AdminPage() {
     const [searchByName, setSearchByName] = useState('');
     const [searchByEmail, setSearchByEmail] = useState('');
     const [filteredSubmissions, setFilteredSubmissions] = useState([]);
-    const [isModalVisible, setIsModalVisible] = useState(false);
     const [selectedSubmissionId, setSelectedSubmissionId] = useState(null);
     const [responseText, setResponseText] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(5)
+    const [isResponseModalOpen, setIsResponseModalOpen] = useState(false);
+    const [currentSubmission, setCurrentSubmission] = useState(null);
 
-    const handleRespondClick = (submissionId) => {
-        setSelectedSubmissionId(submissionId);
-        setIsModalVisible(true);
+    // Calculate total pages
+    const totalPages = Math.ceil(filteredSubmissions.length / itemsPerPage);
+
+    // Calculate the index of the first and last item on the current page
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+    // Current page items
+    const currentItems = filteredSubmissions.slice(indexOfFirstItem, indexOfLastItem);
+
+    // Change page function
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+    const handleSendResponseClick = (submission) => {
+        setCurrentSubmission(submission);
+        setIsResponseModalOpen(true);
+        console.log('Send response clicked:', submission);
     };
 
-    const handleSubmitResponse = async () => {
+    const handleCloseModal = () => {
+        setIsResponseModalOpen(false);
+        setCurrentSubmission(null);
+    };
+
+    const handleSubmitResponse = async (submissionId, responseText) => {
         try {
-            await axios.post(`http://localhost:8080/employee{$customerId}/answer`, {
-                submissionId: selectedSubmissionId,
-                response: responseText,
-            });
-            // Handle success (e.g., show a success message, refresh data)
+            const questionText = currentSubmission.question;
+            // Including both questionText and answer as query parameters
+            const url = `http://localhost:8080/employee/${submissionId}/answer?questionText=${encodeURIComponent(questionText)}&answer=${encodeURIComponent(responseText)}`;
+
+            await axios.post(url);
+            // Handle success here
+            window.location.reload();
         } catch (error) {
             console.error('Error sending response:', error);
-            // Handle error (e.g., show an error message)
+            // Handle error here
         } finally {
-            setIsModalVisible(false);
-            setResponseText('');
+            handleCloseModal();
         }
+
+        console.log('Submitting response:', submissionId, responseText);
     };
 
     useEffect(() => {
@@ -79,6 +105,7 @@ function AdminPage() {
             filtered = filtered.filter(submission => submission.email.toLowerCase().includes(searchByEmail.toLowerCase()));
         }
         setFilteredSubmissions(filtered);
+        setCurrentPage(1); // Reset to first page whenever filters change
     }, [dropdown, searchByName, searchByEmail, submissions]);
 
     const handleDropdown = (choice) => {
@@ -92,7 +119,7 @@ function AdminPage() {
             </div>
             <div className="content-container w-100 d-flex flex-column align-items-stretch justify-content-center p-5 rounded-3">
                 <div className="header-div border custom-border p-2">
-                    <h2 className="text-white">Submitted Tickets</h2>
+                    <h2 className="text-white ">Submitted Tickets</h2>
                 </div>
                 <div className="nav-container pb-3 pt-3">
                     <nav className="navbar bg-white rounded-3 p-1">
@@ -111,19 +138,20 @@ function AdminPage() {
                                     </div>
                                 </div>
                                 <div className="col-md-3">
-                                    <input type="text" className="form-control" placeholder="Name" aria-label="Username" aria-describedby="basic-addon1" />
+                                    <input type="text" className="form-control" placeholder="Name" aria-label="Username" aria-describedby="basic-addon1" value={searchByName} onChange={(e) => setSearchByName(e.target.value)} />
                                 </div>
                                 <div className="col-md-3">
-                                    <input type="text" className="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon2" />
+                                    <input type="text" className="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon2" value={searchByEmail} onChange={(e) => setSearchByEmail(e.target.value)} />
                                 </div>
                                 <div className="pagination-container col-md-3 justify-content-end pt-3">
                                     <nav aria-label="Page navigation example">
-                                        <ul class="pagination">
-                                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                        <ul className="pagination">
+                                            <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+                                                <a className="page-link" href="#" onClick={(e) => { e.preventDefault(); paginate(currentPage - 1); }}>Previous</a>
+                                            </li>
+                                            <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+                                                <a className="page-link" href="#" onClick={(e) => { e.preventDefault(); paginate(currentPage + 1); }}>Next</a>
+                                            </li>
                                         </ul>
                                     </nav>
                                 </div>
@@ -142,10 +170,10 @@ function AdminPage() {
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredSubmissions.map((submission, index) => (
+                        {currentItems.map((submission, index) => (
                             <tr key={index}>
                                 <th scope="row">
-                                    <div className={`alert ${submission.status === 'Resolved' ? 'alert-success' : submission.status === 'In Progress' ? 'alert-warning' : 'alert-primary'} d-flex justify-content-center p-1`} role="alert">
+                                    <div className={`alert ${submission.status === 'Solved' ? 'alert-success' : submission.status === 'In Progress' ? 'alert-warning' : 'alert-primary'} d-flex justify-content-center p-1`} role="alert">
                                         {submission.status}
                                     </div>
                                 </th>
@@ -154,21 +182,23 @@ function AdminPage() {
                                 <td>{submission.question}</td>
                                 <td className="p-3">
                                     <div className="dropdown">
-                                        <button className="btn btn-primary rounded-5" type="button" data-bs-toggle="dropdown" aria-expanded="false" onClick={() => handleRespondClick(submission.id)}>
-                                            RESPOND
+                                        <button className="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="bi bi-three-dots"></i>
                                         </button>
-
-                                        {isModalVisible && (
-                                            <div className="modal">
-                                                <input type="text" value={responseText} onChange={(e) => setResponseText(e.target.value)} />
-                                                <button onClick={handleSubmitResponse}>Submit</button>
-                                                <button onClick={() => setIsModalVisible(false)}>Close</button>
-                                            </div>
-                                        )}
+                                        <ul className="dropdown-menu">
+                                            <li><a className="dropdown-item" href="#" onClick={() => handleSendResponseClick(submission)}>Send Response</a></li>
+                                            {/* Other dropdown items */}
+                                        </ul>
                                     </div>
                                 </td>
                             </tr>
                         ))}
+                        <ResponseModal
+                            isOpen={isResponseModalOpen}
+                            onClose={handleCloseModal}
+                            onSubmit={handleSubmitResponse}
+                            submission={currentSubmission}
+                        />
                     </tbody>
                 </table>
             </div>
